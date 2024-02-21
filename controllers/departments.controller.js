@@ -2,7 +2,7 @@ const {
   Department,
   validateDepartment,
 } = require("../models/departments.model");
-const { createNew } = require("./common/basic.controllers");
+const { createNew, getAll } = require("./common/basic.controllers");
 
 const { errorLog } = require("../utils/chalk.log");
 
@@ -12,15 +12,9 @@ async function createNewDepartment(req, res) {
   res.json(department);
 }
 
-// async function getAllCards(req, res) {
-//   try {
-//     const cards = await Card.find();
-//     res.json(cards);
-//   } catch (error) {
-//     errorLog(err);
-//     res.status(500).send("An error occurred, Error: " + error.message);
-//   }
-// }
+async function getAllDepartment(req, res) {
+  await getAll(req, res, Department)
+}
 
 // async function getCardsByUserId(req, res) {
 //   try {
@@ -148,7 +142,7 @@ async function createNewDepartment(req, res) {
 
 module.exports = {
   createNewDepartment,
-  // getAllCards,
+  getAllDepartment,
   // getCardsByUserId,
   // getCardById,
   // editCard,

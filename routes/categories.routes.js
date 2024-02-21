@@ -1,29 +1,21 @@
 const router = require("express").Router();
 const { authorize } = require("../middleware/auth.mw");
-const { createNewCategory } = require("../controllers/categories.controller");
+const { createNewCategory, getAllCategories, getCategoryById, editCategory, deleteCategory } = require("../controllers/categories.controller");
 
 // create new card business only
 router.post("/", authorize, createNewCategory);
 
-// // GET all cards - non provide token
-// router.get("/", getAllCards);
+// GET all companies - non provide token
+router.get("/", authorize, getAllCategories);
 
-// // GET users card by user id - authorized user
-// router.get("/my-cards", authorize, getCardsByUserId);
+// GET category by ID
+router.get("/:id", authorize, getCategoryById);
 
-// // GET card by ID
-// router.get("/:id", getCardById);
+// Update (PUT) card by user who create the card or admin
+router.put("/:id", authorize, editCategory);
 
-// // Update (PUT) card by user who create the card or admin
-// router.put("/:id", authorize, cardVerify, editCard);
+// DELETE card by user who create the card or admin
+router.delete("/:id", authorize, deleteCategory);
 
-// // DELETE card by user who create the card or admin
-// router.delete("/:id", authorize, cardVerify, deleteCard);
-
-// // PATCH toggle likes for cards
-// router.patch("/:id", authorize, cardVerify, toggleLike);
-
-// // PATCH change business number by admin
-// router.patch("/business/:id", authorize, cardVerify, changeBusinessNumber);
 
 module.exports = router;

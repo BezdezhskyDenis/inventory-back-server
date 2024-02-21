@@ -1,5 +1,5 @@
 const { Worker, validateWorker } = require("../models/workers.model");
-const { createNew } = require("./common/basic.controllers");
+const { createNew, getAll } = require("./common/basic.controllers");
 const { errorLog } = require("../utils/chalk.log");
 
 async function createNewWorker(req, res) {
@@ -8,15 +8,9 @@ async function createNewWorker(req, res) {
   res.json(worker);
 }
 
-// async function getAllCards(req, res) {
-//   try {
-//     const cards = await Card.find();
-//     res.json(cards);
-//   } catch (error) {
-//     errorLog(err);
-//     res.status(500).send("An error occurred, Error: " + error.message);
-//   }
-// }
+async function getAllWorkers(req, res) {
+  await getAll(req, res, Worker)
+}
 
 // async function getCardsByUserId(req, res) {
 //   try {
@@ -144,7 +138,7 @@ async function createNewWorker(req, res) {
 
 module.exports = {
   createNewWorker,
-  // getAllCards,
+  getAllWorkers,
   // getCardsByUserId,
   // getCardById,
   // editCard,

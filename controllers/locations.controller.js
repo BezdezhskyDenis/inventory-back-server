@@ -1,5 +1,5 @@
 const { Location, validateLocation } = require("../models/locations.model");
-const { createNew } = require("./common/basic.controllers");
+const { createNew, getAll } = require("./common/basic.controllers");
 const { errorLog } = require("../utils/chalk.log");
 
 async function createNewLocation(req, res) {
@@ -8,15 +8,9 @@ async function createNewLocation(req, res) {
   res.json(location);
 }
 
-// async function getAllCards(req, res) {
-//   try {
-//     const cards = await Card.find();
-//     res.json(cards);
-//   } catch (error) {
-//     errorLog(err);
-//     res.status(500).send("An error occurred, Error: " + error.message);
-//   }
-// }
+async function getAllLocation(req, res) {
+  await getAll(req, res, Location)
+}
 
 // async function getCardsByUserId(req, res) {
 //   try {
@@ -144,7 +138,7 @@ async function createNewLocation(req, res) {
 
 module.exports = {
   createNewLocation,
-  // getAllCards,
+  getAllLocation,
   // getCardsByUserId,
   // getCardById,
   // editCard,

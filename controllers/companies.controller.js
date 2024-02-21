@@ -16,15 +16,19 @@ async function createNewCompany(req, res) {
   res.json(token);
 }
 
-// async function getAllCards(req, res) {
-//   try {
-//     const cards = await Card.find();
-//     res.json(cards);
-//   } catch (error) {
-//     errorLog(err);
-//     res.status(500).send("An error occurred, Error: " + error.message);
-//   }
-// }
+async function getAllCompanies(req, res) {
+  if (!req.user.isAdmin){
+    res.status(401).send('Unauthorized');
+    return
+  }
+  try {
+    const companies = await Company.find();
+    res.json(companies);
+  } catch (error) {
+    errorLog(err);
+    res.status(500).send("An error occurred, Error: " + error.message);
+  }
+}
 
 // async function getCardsByUserId(req, res) {
 //   try {
@@ -152,7 +156,7 @@ async function createNewCompany(req, res) {
 
 module.exports = {
   createNewCompany,
-  // getAllCards,
+  getAllCompanies,
   // getCardsByUserId,
   // getCardById,
   // editCard,

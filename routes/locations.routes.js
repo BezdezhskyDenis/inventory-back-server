@@ -1,12 +1,12 @@
 const router = require("express").Router();
 const { authorize } = require("../middleware/auth.mw");
-const { createNewLocation } = require("../controllers/locations.controller");
+const { createNewLocation, getAllLocation } = require("../controllers/locations.controller");
 
 // create new card business only
 router.post("/", authorize, createNewLocation);
 
-// // GET all cards - non provide token
-// router.get("/", getAllCards);
+// GET all cards - non provide token
+router.get("/", authorize, getAllLocation);
 
 // // GET users card by user id - authorized user
 // router.get("/my-cards", authorize, getCardsByUserId);

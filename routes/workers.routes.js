@@ -1,12 +1,12 @@
 const router = require("express").Router();
 const { authorize } = require("../middleware/auth.mw");
-const { createNewWorker } = require("../controllers/workers.controller");
+const { createNewWorker, getAllWorkers } = require("../controllers/workers.controller");
 
 // create new card business only
 router.post("/", authorize, createNewWorker);
 
-// // GET all cards - non provide token
-// router.get("/", getAllCards);
+// GET all cards - non provide token
+router.get("/", authorize, getAllWorkers);
 
 // // GET users card by user id - authorized user
 // router.get("/my-cards", authorize, getCardsByUserId);
