@@ -1,29 +1,23 @@
 const router = require("express").Router();
 const { authorize } = require("../middleware/auth.mw");
-const { createNewWorker, getAllWorkers } = require("../controllers/workers.controller");
+const { createNewWorker, getAllWorkers, deleteWorker, editWorker, getWorkerById, updateWorkerParams } = require("../controllers/workers.controller");
 
-// create new card business only
+// create new Worker business only
 router.post("/", authorize, createNewWorker);
 
-// GET all cards - non provide token
+// GET all Worker - non provide token
 router.get("/", authorize, getAllWorkers);
 
-// // GET users card by user id - authorized user
-// router.get("/my-cards", authorize, getCardsByUserId);
+// GET Worker by ID
+router.get("/:id", authorize, getWorkerById);
 
-// // GET card by ID
-// router.get("/:id", getCardById);
+// Update (PUT) Worker by user who create the card or admin
+router.put("/:id", authorize, editWorker);
 
-// // Update (PUT) card by user who create the card or admin
-// router.put("/:id", authorize, cardVerify, editCard);
+// DELETE Worker by user who create the card or admin
+router.delete("/:id", authorize, deleteWorker);
 
-// // DELETE card by user who create the card or admin
-// router.delete("/:id", authorize, cardVerify, deleteCard);
-
-// // PATCH toggle likes for cards
-// router.patch("/:id", authorize, cardVerify, toggleLike);
-
-// // PATCH change business number by admin
-// router.patch("/business/:id", authorize, cardVerify, changeBusinessNumber);
+// PATCH Worker params 
+router.patch("/:id", authorize, updateWorkerParams);
 
 module.exports = router;

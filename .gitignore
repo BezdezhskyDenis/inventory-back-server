@@ -4,6 +4,7 @@
 
 ## examples ##
 example.http
+*.example.http
 
 ### dotenv ###
 .env.development

@@ -1,29 +1,20 @@
 const router = require("express").Router();
 const { authorize } = require("../middleware/auth.mw");
-const { createNewLocation, getAllLocation } = require("../controllers/locations.controller");
+const { createNewLocation, getAllLocation, deleteLocation, editLocation, getLocationById } = require("../controllers/locations.controller");
 
-// create new card business only
+// create new Location business only
 router.post("/", authorize, createNewLocation);
 
-// GET all cards - non provide token
+// GET all Location - non provide token
 router.get("/", authorize, getAllLocation);
 
-// // GET users card by user id - authorized user
-// router.get("/my-cards", authorize, getCardsByUserId);
+// GET Location by ID
+router.get("/:id", authorize, getLocationById);
 
-// // GET card by ID
-// router.get("/:id", getCardById);
+// Update (PUT) Location by user who create the card or admin
+router.put("/:id", authorize, editLocation);
 
-// // Update (PUT) card by user who create the card or admin
-// router.put("/:id", authorize, cardVerify, editCard);
-
-// // DELETE card by user who create the card or admin
-// router.delete("/:id", authorize, cardVerify, deleteCard);
-
-// // PATCH toggle likes for cards
-// router.patch("/:id", authorize, cardVerify, toggleLike);
-
-// // PATCH change business number by admin
-// router.patch("/business/:id", authorize, cardVerify, changeBusinessNumber);
+// DELETE Location by user who create the card or admin
+router.delete("/:id", authorize, deleteLocation);
 
 module.exports = router;

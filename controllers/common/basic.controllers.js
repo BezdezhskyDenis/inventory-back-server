@@ -1,5 +1,6 @@
 const { errorLog } = require("../../utils/chalk.log");
 const mongoose = require("mongoose");
+const _ = require("lodash");
 
 async function checkValidId(id) {
   return mongoose.isValidObjectId(id);
@@ -51,14 +52,15 @@ async function getById(req, res, mongoModel) {
 
     const data = await mongoModel.findOne({
       _id: req.params.id,
+      company_id: req.user.company_id,
     });
-    
+
     if (!data) {
       return res.status(400).send("The card with the ID number was not found");
     }
 
-    if (data.company_id.toString()  !== req.user.company_id) {
-      return res.status(401).send('Unauthorized');
+    if (data.company_id.toString() !== req.user.company_id) {
+      return res.status(401).send("Unauthorized");
     }
 
     res.json(data);
@@ -77,7 +79,7 @@ async function edit(req, res, validateSchema, mongoModel) {
     const data = await mongoModel.findOneAndUpdate(
       {
         _id: req.params.id,
-        company_id: req.user.company_id
+        company_id: req.user.company_id,
       },
       req.body,
       { new: true }
@@ -96,7 +98,7 @@ async function deleteData(req, res, mongoModel, name) {
   try {
     const data = await mongoModel.findOneAndDelete({
       _id: req.params.id,
-      company_id: req.user.company_id
+      company_id: req.user.company_id,
     });
     if (!data) {
       return res.status(400).send("The card with the given ID was not found");
@@ -110,12 +112,40 @@ async function deleteData(req, res, mongoModel, name) {
   }
 }
 
+async function updateParams(req, res, mongoModel) {
+  try {
+    let updateObj = {};
+    let objKeys = [];
+    for (const key in req.body) {
+      if (req.body[key] !== undefined) updateObj[key] = req.body[key];
+      objKeys.push(key);
+    }
+    const data = await mongoModel.findOneAndUpdate(
+      {
+        _id: req.params.id,
+        company_id: req.user.company_id,
+      },
+      updateObj,
+      {
+        new: true,
+      }
+    );
+    if (!data) {
+      return res.status(400).send(`Worker with the given ID was not found`);
+    }
+    res.json(_.pick(data, [ "_id", ...objKeys]));
+  } catch (error) {
+    errorLog(error);
+    res.status(500).send("An error occurred, Error: " + error.message);
+  }
+}
+
 module.exports = {
   createNew,
   getAll,
   getById,
   edit,
   deleteData,
-  // toggleLike,
+  updateParams,
   // changeBusinessNumber,
 };

@@ -117,6 +117,7 @@ async function updateUserParams(req, res) {
     res.status(500).send("An error occurred, Error: " + error.message);
   }
 }
+
 async function assignCompany(req, res) {
   try {
     const user = await User.findByIdAndUpdate(
