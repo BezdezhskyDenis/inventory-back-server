@@ -47,6 +47,7 @@ async function addNewUser(req, res) {
 
     res.json(_.pick(newUser, ["name", "email", "_id"]));
   } catch (error) {
+    console.log(error)
     errorLog(error);
     res.status(500).send("An error occurred, Error: " + error.message);
   }

@@ -17,7 +17,7 @@ async function createNewCategory(req, res) {
             validateCategory,
             Category
           );
-          if (category.err != null) throw new Error(category.err());
+          if (category.err != null || undefined) throw new Error(category.err());
         })
       );
       res.json({
@@ -28,7 +28,7 @@ async function createNewCategory(req, res) {
     }
   } else {
     const category = await createNew(req, res, validateCategory, Category);
-    if (category.err != null) return category.err();
+    if (category.err != null || undefined) return category.err();
     res.json({
       message: `Category: ${name} has been created.`,
     });

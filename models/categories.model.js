@@ -1,6 +1,8 @@
 const mongoose = require("mongoose");
 const Joi = require("joi");
 
+const { nameJoiSchema } = require("./validationSchemas/joiValidationSchemas");
+
 const categorySchema = new mongoose.Schema({
   name: {
     type: String,
@@ -13,16 +15,16 @@ const categorySchema = new mongoose.Schema({
   company_id: {
     type: mongoose.Types.ObjectId,
     ref: "Company",
-  }
+  },
 });
 
 const Category = mongoose.model("Category", categorySchema, "categories");
 
 function validateCategory(category) {
   const schema = Joi.object({
-    name: Joi.string().min(2).max(256).required(),
+    name: nameJoiSchema
   });
   return schema.validate(category);
 }
 
-module.exports = {Category, validateCategory};
+module.exports = { Category, validateCategory };

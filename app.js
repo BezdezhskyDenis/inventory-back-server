@@ -26,6 +26,7 @@ app.use("/api/categories", require("./routes/categories.routes"));
 app.use("/api/departments", require("./routes/departments.routes"));
 app.use("/api/locations", require("./routes/locations.routes"));
 app.use("/api/workers", require("./routes/workers.routes"));
+app.use("/api/products", require("./routes/products.routes"));
 
 app.use((req, res) => {
   res.status(404).send("Page Not Found");

@@ -2,11 +2,16 @@ const mongoose = require("mongoose");
 const Joi = require("joi");
 const jwt = require("jsonwebtoken");
 
-const nameSchema = require("./schemas/name.schema");
+const personNameSchema = require("./schemas/personName.schema");
+const {
+  emailJoiSchema,
+  humanNameJoiSchema,
+  phoneJoiSchema,
+} = require("./validationSchemas/joiValidationSchemas");
 
 const userSchema = new mongoose.Schema(
   {
-    name: nameSchema,
+    name: personNameSchema,
     phone: {
       type: String,
       required: true,
@@ -41,13 +46,18 @@ const userSchema = new mongoose.Schema(
     company_id: {
       type: mongoose.Types.ObjectId,
       ref: "Company",
-    }
+    },
   },
   {
     methods: {
       generateAuthToken() {
         return jwt.sign(
-          { _id: this._id, isAdmin: this.isAdmin, isManager: this.isManager, company_id: this.company_id },
+          {
+            _id: this._id,
+            isAdmin: this.isAdmin,
+            isManager: this.isManager,
+            company_id: this.company_id,
+          },
           process.env.JWT_SIGNATURE
         );
       },
@@ -59,19 +69,9 @@ const User = mongoose.model("User", userSchema, "users");
 
 function validateUser(user, requestMethod) {
   const schema = Joi.object({
-    name: Joi.object({
-      first: Joi.string().min(2).max(256).required(),
-      last: Joi.string().min(2).max(256).required(),
-    }).required(),
-    phone: Joi.string()
-      .pattern(/0[0-9]{1,2}\-?\s?[0-9]{3}\s?[0-9]{4}/)
-      .message("user phone mast be a valid phone number")
-      .required(),
-    email: Joi.string()
-      .min(5)
-      .max(256)
-      .required()
-      .email({ tlds: { allow: false } }),
+    name: humanNameJoiSchema,
+    phone: phoneJoiSchema,
+    email: emailJoiSchema,
     password: Joi.string()
       .min(8)
       .max(20)

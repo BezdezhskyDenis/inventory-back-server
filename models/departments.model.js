@@ -1,6 +1,8 @@
 const mongoose = require("mongoose");
 const Joi = require("joi");
 
+const { nameJoiSchema } = require("./validationSchemas/joiValidationSchemas");
+
 const departmentSchema = new mongoose.Schema({
   name: {
     type: String,
@@ -20,7 +22,7 @@ const Department = mongoose.model("Department", departmentSchema, "departments")
 
 function validateDepartment(department) {
   const schema = Joi.object({
-    name: Joi.string().min(2).max(256).required(),
+    name: nameJoiSchema
   });
   return schema.validate(department);
 }

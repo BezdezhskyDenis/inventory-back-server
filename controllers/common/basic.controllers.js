@@ -30,7 +30,11 @@ async function createNew(req, res, validateSchema, mongoModel) {
     return data;
   } catch (error) {
     errorLog(error);
-    res.status(500).send("An error occurred, Error: " + error.message);
+    return {
+      err: () => {
+        res.status(500).send("An error occurred, Error: " + error.message);
+      },
+    };
   }
 }
 
@@ -133,7 +137,7 @@ async function updateParams(req, res, mongoModel) {
     if (!data) {
       return res.status(400).send(`Worker with the given ID was not found`);
     }
-    res.json(_.pick(data, [ "_id", ...objKeys]));
+    res.json(_.pick(data, ["_id", ...objKeys]));
   } catch (error) {
     errorLog(error);
     res.status(500).send("An error occurred, Error: " + error.message);

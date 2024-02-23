@@ -8,7 +8,7 @@ const { errorLog } = require("../utils/chalk.log");
 
 async function createNewCompany(req, res) {
   const company = await createNew(req, res, validateCompany, Company);
-  if (company.err != null) return company.err();
+  if (company.err != null || undefined) return company.err();
   req.body.company_id = company._id.toString();
   await assignCompany(req, res);
   const user = await User.findOne({ _id: req.user._id });

@@ -4,7 +4,7 @@ const { errorLog } = require("../utils/chalk.log");
 
 async function createNewLocation(req, res) {
   const location = await createNew(req, res, validateLocation, Location);
-  if (location.err != null) return location.err();
+  if (location.err != null || undefined) return location.err();
   res.json(location);
 }
 

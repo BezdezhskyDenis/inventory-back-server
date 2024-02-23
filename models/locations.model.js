@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 const Joi = require("joi");
+
 const { Department } = require("./departments.model")
 
 const locationSchema = new mongoose.Schema({
@@ -21,7 +22,7 @@ const locationSchema = new mongoose.Schema({
   company_id: {
     type: mongoose.Types.ObjectId,
     ref: "Company",
-  }
+  },
 });
 
 const Location = mongoose.model("Location", locationSchema, "locations");
